@@ -1,15 +1,19 @@
 # 🏭 Factory Break ⛓️‍💥
 
+_All commands should be run from the repository's root directory._
+
 ## 📦 Setup
-1. Install Python dependencies.
+1. Install repository's Python version.
     ```shell
-    # Run in repository's root directory
+    pyenv install
+    ```
+1. Install dependencies.
+    ```shell
     pip install -r requirements.txt
     ```
 
 ## 👟 Running
 1. Run the `main.py` file.
     ```shell
-    # Run in repository's root directory
     python3 main.py
     ```

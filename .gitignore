@@ -1,2 +1,6 @@
 # Generic ignore
 *.ignore*
+
+# Python compiled bytecode cache directories and files
+__pycache__/
+*.pyc
