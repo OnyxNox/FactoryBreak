@@ -1,2 +1,8 @@
-BLUE, GREY, RED, WHITE = (13, 13, 180), (13, 13, 13), (180, 13, 13), (156, 156, 156)
+# Color constants
+BLUE, GREY, RED, WHITE, YELLOW = (13, 13, 180), (13, 13, 13), (180, 13, 13), (180, 180, 180), (180, 180, 13)
+
+# Wall constants
+WALL_THICKNESS, WALL_H_WIDTH, WALL_V_WIDTH = 16, 768, 612
+
+# Window constants
 WINDOW_WIDTH, WINDOW_HEIGHT = 1280, 720
