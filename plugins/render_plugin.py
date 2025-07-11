@@ -1,7 +1,7 @@
 import pygame
 from pygame import Surface
 
-from components import Color, Position, Velocity
+from components import Circle, Color, Position, Rectangle, Shape
 from ecs import EntityManager, Plugin, SystemManager
 
 class RenderPlugin(Plugin):
@@ -10,8 +10,7 @@ class RenderPlugin(Plugin):
         system_manager.add_update_systems(self._update_render)
 
     def _update_render(self, screen: Surface, entity_manager: EntityManager):
-        radius = 20
-        for components in entity_manager.query(Color, Position):
-            if components:
-                color, position = components
-                pygame.draw.circle(screen, color.color, (int(position.x), int(position.y)), radius)
+        for circle, color, position in entity_manager.query(Circle, Color, Position):
+            pygame.draw.circle(screen, color.color, (int(position.x), int(position.y)), circle.radius)
+        for rectangle, color, position in entity_manager.query(Rectangle, Color, Position):
+            pygame.draw.rect(screen, color.color, (int(position.x), int(position.y), *rectangle.size))
