@@ -1,6 +1,5 @@
-from abc import ABC, abstractmethod
 import logging
-from typing import Generator, Type
+from typing import Callable, Generator, Type
 
 from pygame import Surface
 
@@ -67,31 +66,28 @@ class EntityManager:
             if entity.has_components(*component_types):
                 yield entity.get_components(*component_types)
 
-class System(ABC):
-    @abstractmethod
-    def run(self, screen, entity_manager):
-        """
-        Run the system.
-        """
-        pass
-
 class SystemManager:
+    _screen: Surface
+    _entity_manager: EntityManager
+    _setup_systems: list[Callable]
+    _update_systems: list[Callable]
+
     def __init__(self, screen: Surface, entity_manager: EntityManager):
         """
         Initialize a new SystemManager instance.
         """
-        self._screen: Surface = screen
-        self._entity_manager: EntityManager = entity_manager
-        self._setup_systems: list[System] = []
+        self._screen = screen
+        self._entity_manager = entity_manager
+        self._setup_systems = []
         self._update_systems = []
 
-    def add_setup_systems(self, *systems: System):
+    def add_setup_systems(self, *systems: Callable):
         """
         Add setup systems to the SystemManager.
         """
         self._setup_systems.extend(systems)
 
-    def add_update_systems(self, *systems: System):
+    def add_update_systems(self, *systems: Callable):
         """
         Add update systems to the SystemManager.
         """
@@ -102,11 +98,11 @@ class SystemManager:
         Run the setup systems in the SystemManager.
         """
         for setup_system in self._setup_systems:
-            setup_system.run(self._screen, self._entity_manager)
+            setup_system(self._screen, self._entity_manager)
 
     def run_update_systems(self):
         """
         Run the update systems in the SystemManager.
         """
         for update_system in self._update_systems:
-            update_system.run(self._screen, self._entity_manager)
+            update_system(self._screen, self._entity_manager)
