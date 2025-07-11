@@ -4,7 +4,7 @@ import pygame
 from constants import GREY, WINDOW_HEIGHT, WINDOW_WIDTH
 from ecs import EntityManager, SystemManager
 import logger
-from systems import render_system, startup_system, velocity_system
+import plugins
 
 logger.init()
 pygame.init()
@@ -17,8 +17,7 @@ clock = pygame.time.Clock()
 entity_manager = EntityManager()
 system_manager = SystemManager(screen, entity_manager)
 
-system_manager.add_setup_systems(startup_system, render_system)
-system_manager.add_update_systems(velocity_system, render_system)
+plugins.init(system_manager)
 
 system_manager.run_setup_systems()
 

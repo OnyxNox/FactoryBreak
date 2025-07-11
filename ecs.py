@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 import logging
 from typing import Callable, Generator, Type
 
@@ -106,3 +107,8 @@ class SystemManager:
         """
         for update_system in self._update_systems:
             update_system(self._screen, self._entity_manager)
+
+class Plugin(ABC):
+    @abstractmethod
+    def build(self, system_manager: SystemManager):
+        pass
