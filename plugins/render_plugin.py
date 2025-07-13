@@ -13,4 +13,4 @@ class RenderPlugin(Plugin):
         for circle, color, position in entity_manager.query(Circle, Color, Position):
             pygame.draw.circle(screen, color.color, (int(position.x), int(position.y)), circle.radius)
         for rectangle, color, position in entity_manager.query(Rectangle, Color, Position):
-            pygame.draw.rect(screen, color.color, (int(position.x), int(position.y), *rectangle.size))
+            pygame.draw.rect(screen, color.color, (int(position.x), int(position.y), *rectangle))

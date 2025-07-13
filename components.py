@@ -3,6 +3,8 @@ from dataclasses import dataclass
 
 class Component(ABC): pass
 
+class Collider(Component): pass
+
 class Color(Component):
     def __init__(self, color: tuple[int, int, int]):
         self.color = color
@@ -24,7 +26,12 @@ class Circle(Shape):
 
 @dataclass
 class Rectangle(Shape):
-    size: tuple[float, float]
+    width: int
+    height: int
+
+    def __iter__(self):
+        yield self.width
+        yield self.height
 
 class Velocity(Component):
     def __init__(self, x: int, y: int):

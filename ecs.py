@@ -58,6 +58,12 @@ class EntityManager:
             logging.debug(f"Created Entity {entity_id}")
         self._entities.append(entity)
         return entity
+
+    def first(self, *component_types: Type[Component]) -> list[Component] | None:
+        try:
+            return next(self.query(*component_types))
+        except StopIteration:
+            return None
     
     def query(self, *component_types: Type[Component]) -> Generator[list[Component], None, None]:
         """

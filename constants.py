@@ -1,3 +1,6 @@
+# Ball constants
+BALL_RADIUS = 10
+
 # Color constants
 BLUE, GREY, RED, WHITE, YELLOW = (13, 13, 180), (13, 13, 13), (180, 13, 13), (180, 180, 180), (180, 180, 13)
 
