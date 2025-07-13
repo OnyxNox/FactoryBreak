@@ -1,21 +1,19 @@
 from abc import ABC
-from dataclasses import dataclass
+
+from decorators import iterable_dataclass
 
 class Component(ABC):
     pass
 
-class Collider(Component):
-    pass
-
-@dataclass
+@iterable_dataclass
 class Color(Component):
     color: tuple[int, int, int]
 
-@dataclass
+@iterable_dataclass
 class Name(Component):
     name: str
 
-@dataclass
+@iterable_dataclass
 class Position(Component):
     x: float
     y: float
@@ -23,20 +21,20 @@ class Position(Component):
 class Shape(Component):
     pass
 
-@dataclass
+@iterable_dataclass
 class Circle(Shape):
     radius: float
 
-@dataclass
+@iterable_dataclass
 class Rectangle(Shape):
-    width: int
-    height: int
+    width: float
+    height: float
 
-    def __iter__(self):
-        yield self.width
-        yield self.height
+@iterable_dataclass
+class Collider(Component):
+    shape: Shape
 
-@dataclass
+@iterable_dataclass
 class Velocity(Component):
     x: float
     y: float

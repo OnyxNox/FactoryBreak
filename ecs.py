@@ -117,4 +117,7 @@ class SystemManager:
 class Plugin(ABC):
     @abstractmethod
     def build(self, system_manager: SystemManager):
+        """
+        Initializes the plugin's entities and systems.
+        """
         pass

@@ -11,7 +11,7 @@ class WallPlugin(Plugin):
     def _create_wall(self, entity_manager: EntityManager, name: str, position: tuple[int, int], size: tuple[int, int]):
         wall_entity = entity_manager.create_entity(name)
         wall_entity.add_components(
-            Collider(),
+            Collider(shape=Rectangle(*size)),
             Color(WHITE),
             Position(*position),
             Rectangle(*size),
