@@ -1,8 +1,6 @@
-import logging
 from pygame import Surface
 
-from components import Collider, Position, Velocity
-from constants import PINK
+from components import Circle, Collider, Position, Rectangle, Velocity
 from ecs import EntityManager, Plugin, SystemManager
 
 class PhysicsPlugin(Plugin):
@@ -20,16 +18,33 @@ class PhysicsPlugin(Plugin):
 
     def _check_collision(self, _: Surface, entity_manager: EntityManager):
         """
-        Checks for collisions between moving entities and other entities with a Collider component.
+        Checks for collisions between all entities with a Collider component.
         """
-        move_collider, move_position, move_velocity = entity_manager.first(Collider, Position, Velocity)
+        moving_components = list(entity_manager.query(Collider, Position, Velocity))
+        static_components = list(entity_manager.query(Collider, Position))
 
-        static_components = (components for components in entity_manager.query(Collider, Position) if components[0] != move_collider)
+        for move_collider, move_position, move_velocity in moving_components:
+            for static_collider, static_position in static_components:
+                if move_collider is static_collider:
+                    continue
 
-        for static_collider, static_position in static_components:
-            if (static_position.x < move_position.x + move_collider.shape.radius and
-                static_position.x + static_collider.shape.width > move_position.x and
-                static_position.y < move_position.y + move_collider.shape.radius and
-                static_position.y + static_collider.shape.height > move_position.y
-            ):
-                move_velocity.x, move_velocity.y = 0, 0
+                if isinstance(move_collider.shape, Circle):
+                    move_width = move_height = move_collider.shape.radius
+                elif isinstance(move_collider.shape, Rectangle):
+                    move_width, move_height = move_collider.shape.width, move_collider.shape.height
+                else:
+                    continue
+
+                if isinstance(static_collider.shape, Circle):
+                    static_width = static_height = static_collider.shape.radius
+                elif isinstance(static_collider.shape, Rectangle):
+                    static_width, static_height = static_collider.shape.width, static_collider.shape.height
+                else:
+                    continue
+
+                if (static_position.x < move_position.x + move_width and
+                    static_position.x + static_width > move_position.x and
+                    static_position.y < move_position.y + move_height and
+                    static_position.y + static_height > move_position.y
+                ):
+                    move_velocity.x, move_velocity.y = 0, 0
